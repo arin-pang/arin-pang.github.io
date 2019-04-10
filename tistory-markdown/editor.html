@@ -41,11 +41,14 @@ var info = {};
 var access_token = localStorage.getItem('access-token');
 axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&output=json')
 .then(function(response){
-   info = response.data.tistory;
+   var tistory = response.data.tistory;
    
-   if(info.status != 200){
-      throw new Error(info);
+   if(tistory.status != 200){
+      throw new Error(tistory);
    }
+   
+   
+   info = tistory.item;
    
    $('.tistory-id').text(info.id);
    
