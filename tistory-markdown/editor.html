@@ -6,13 +6,69 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css"></link>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"></link>
    <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+   
 </head>
 <body>
-   <div id="editSection">
+   
+   <div class="row">
+      <div class="col-xs-4">
+         <h4>Tistory Markdown Editor</h4>
+      </div>
+      <div class="col-xs-4">
+         <p><small>반갑습니다,</small>&nbsp;<span class="tistory-id"></span><small>님. 글을 올리실 블로그를 선택하여 주세요.</small></p>
+         <select class="target-blog">
+         </select>
+      </div>
+      <div class="col-xs-4">
+      </div>
+      <div class="col-xs-12">
+         <div id="editSection">
+         </div>
+      </div>
    </div>
+   
+   
+   
 
 <script>
+
+var info = {};
+
+var access_token = localStorage.getItem('access-token');
+axios.get('https://www.tistory.com/apis/blog/info?access_token={access-token}  &output={output-type}')
+.then(function(response){
+   info = response;
+   
+   $('.tistory-id').text(info.id);
+   
+   for(var i in info.blogs){
+      var $option = $('<option>');
+      var blog = info.blogs[i];
+      $option.text(blog.title + '-' + blog.url);
+      $('.target-blog').append($option);
+   }
+});
+.catch(function(error){
+   location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+});
+
+var editor = new tui.Editor({
+    el: document.querySelector('#editSection'),
+    initialEditType: 'markdown',
+    previewStyle: 'vertical',
+    height: '400px'
+});
+/*
+var viewer = new tui.Viewer({
+    el: document.querySelector('#viewerSection'),
+    height: '100%',
+    initialValue: '# content to be rendered'
+});
+*/
+
 </script>
 </body>
 
