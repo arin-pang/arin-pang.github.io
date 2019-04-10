@@ -9,13 +9,13 @@
 
 console.log(location.href);
 
-var parsed = Qs.parse(location.href.split('?')[1]);
+var parsed = Qs.parse(location.href.split('#')[1]);
 
 localStorage.setItem('access-token',parsed.access_token);
 
 
 
-//location.href='editor.html';
+location.href='editor.html';
 
 </script>
 </body>
