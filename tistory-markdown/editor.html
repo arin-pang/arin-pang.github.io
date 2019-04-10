@@ -57,8 +57,8 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    }
 })
 .catch(function(error){
-
-   location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+   console.error(error);
+   //location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
 });
 
 var editor = new tui.Editor({
