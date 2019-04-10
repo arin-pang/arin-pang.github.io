@@ -38,7 +38,7 @@
 var info = {};
 
 var access_token = localStorage.getItem('access-token');
-axios.get('https://www.tistory.com/apis/blog/info?access_token={access-token}  &output={output-type}')
+axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&output=json')
 .then(function(response){
    info = response;
    
