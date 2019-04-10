@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.7.0/qs.min.js"></script>
+</head>
+<body>
+
+<script>
+
+var parsed = Qs.parse(location.href.split('?')[1]);
+
+localStorage.setItem('access-token',parsed.access_token);
+
+location.href='editor.html';
+
+</script>
+</body>
+
+</html>
