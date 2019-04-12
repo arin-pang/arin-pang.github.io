@@ -40,6 +40,7 @@
          background-color:rgba(0,0,0,0.7);
          left:0;
          top:0;
+         z-index: 9999;
       }
       
       .ajax-loading-icon{
@@ -49,8 +50,7 @@
          width: 48px;
          height: 48px;
          margin: 0 auto;
-         top:49vh;
-         display:inline-block;
+         margin-top:49vh;
       }
       
       .hide{
@@ -127,7 +127,7 @@
       </main>
    </div>
    <div class="ajax-loading hide">
-      <div class="ajax-loading-icon animated infinite heartbeat"></div>
+      <div class="ajax-loading-icon animated infinite heartBeat"></div>
    </div>
    <iframe style="visibility:hidden" width="0" height="0" class="external-logout-bridge" src="about:blank"></iframe>
 <script>
