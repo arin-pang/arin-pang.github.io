@@ -15,7 +15,7 @@
    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <style>
       <!-- fix code mirror bug -->
-      .CodeMirror.CodeMirror-wrap.cm-s-default .CodeMirror-scroll{
+      .tui-editor-defaultUI .CodeMirror-scroll{
          min-height: 200px;
       }
       .tistory-thumbnail{
@@ -87,7 +87,6 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    info = tistory.item;
    
    $('.tistory-id').text(info.id);
-   $('.tistory-thumbnail').css('background-image','url('+info.profileThumbnailImageUrl+')');
    
    for(var i in info.blogs){
       var $option = $('<option>');
@@ -95,7 +94,13 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
       $option.text(blog.title + '-' + blog.url);
       $option.attr('value',blog.name);
       $('.target-blog').append($option);
+      
    }
+   var encodedProUrl = encodeURIComponent('https://tistory1.daumcdn.net/tistory/user/'+info.userId+'/profile/profileImg');
+   
+   var iconUrl = 'http://img1.daumcdn.net/thumb/C30x30/?fname=' + encodedProUrl;
+   
+   $('.tistory-thumbnail').css('background-image','url('+blog.iconUrl+')');
 })
 .catch(function(error){
    alert(JSON.stringify(error));
