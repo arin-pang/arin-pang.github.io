@@ -109,9 +109,9 @@ $('.profile-popover').popover({
     trigger:'click'
 });
 
-$(document).on('load','.external-bridge',function(){
+$(document).on('beforeunload','.external-bridge',function(){
     //The iframe has loaded or reloaded. 
-     console.log('loaded', $(this).attr('src'));
+     console.log('test', $(this).attr('src'));
 });
 
 
