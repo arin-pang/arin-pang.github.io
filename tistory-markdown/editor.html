@@ -32,12 +32,6 @@
 <body>
    <script>
 
-   onChangedExternalBridge = function(url){
-      if(url == 'https://tistory.com/'){
-         location.reload();
-      }
-   }
-      
    </script>
    <div class="popover-station"></div>
    <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
@@ -101,7 +95,7 @@
       </div>
       <button class="logout-button">로그아웃</button>
    </div>
-   <iframe style="visibility:hidden" width="0" height="0" class="external-bridge" src="about:blank" onLoad="onChangedExternalBridge(this.contentWindow.location.href)"></iframe>
+   <iframe style="visibility:hidden" width="0" height="0" class="external-bridge" src="about:blank"></iframe>
 <script>
 
 var device = $.ua.device;
@@ -113,8 +107,12 @@ $('.profile-popover').popover({
     html:true,
     placement:'bottom',
     trigger:'click'
-});;
+});
 
+$(document).on('load','.external-bridge',function(){
+    //The iframe has loaded or reloaded. 
+     console.log('loaded', $(this).attr('src'));
+});
 
 
 var info = {};
