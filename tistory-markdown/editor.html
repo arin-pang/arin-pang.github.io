@@ -92,6 +92,7 @@
       </div>
       <button class="logout-button">로그아웃</button>
    </div>
+   <iframe style="visibility:hidden" width="0" height="0" class="external-bridge" src="about:blank" onLoad="onChangedExternalBridge(this.contentWindow.location.href)"></iframe>
 <script>
 
 var device = $.ua.device;
@@ -102,7 +103,7 @@ $('.profile-popover').popover({
     content:$('.profile-popover-content'),
     html:true,
     placement:'bottom',
-    trigger:'focus'
+    trigger:'click'
 });;
 
 
@@ -158,15 +159,17 @@ var viewer = new tui.Viewer({
 */
 
 $(document).on('click','.logout-button',function(){
-   axios.get('https://tistory.com/auth/logout')
-   .then(function(response){
-      location.reload();
-   })
-   .catch(function(error){
-      console.error(error);
-      alert("로그아웃에 실패하였습니다. 다시 시도하여 주십시오.");
-   });
+   $('.external-bridge').attr('src','https://tistory.com/auth/logout');
 });
+
+
+onChangedExternalBridge = function(url){
+   if(url == 'https://tistory.com/'){
+      location.reload();
+   }
+}
+
+
 
 $(document).on('click','.write-button',function(){
 
