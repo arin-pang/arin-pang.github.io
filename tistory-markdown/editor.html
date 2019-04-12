@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
@@ -13,6 +12,7 @@
    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"></link>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css"></link>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"></link>
+   <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <style>
       <!-- fix code mirror bug -->
       .CodeMirror-hscrollbar .CodeMirror-scroll{
@@ -67,11 +67,11 @@
       </main>
    </div>   
 <script>
-console.log(UAParser);
+/*console.log(UAParser);
 var uaParser = new UAParser();
 var userAgent = navigator.userAgent;
-uaParser.setUA(userAgent);
-var device = uaParser.device;
+uaParser.setUA(userAgent);*/
+var device = $.ua.device;
 
 
 
