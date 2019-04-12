@@ -100,7 +100,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    
    var iconUrl = 'http://img1.daumcdn.net/thumb/C30x30/?fname=' + encodedProUrl;
    
-   $('.tistory-thumbnail').css('background-image','url('+blog.iconUrl+')');
+   $('.tistory-thumbnail').css('background-image','url('+iconUrl+')');
 })
 .catch(function(error){
    alert(JSON.stringify(error));
