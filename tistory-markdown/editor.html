@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.19/ua-parser.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
@@ -108,7 +108,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
 var editor = new tui.Editor({
     el: document.querySelector('#editSection'),
     initialEditType: 'markdown',
-    previewStyle: device.type=='mobile' ? 'tab' : 'vertical',
+    previewStyle: device.type == 'mobile' ? 'tab' : 'vertical',
     height: 'auto',
     usageStatistics: false,
 });
