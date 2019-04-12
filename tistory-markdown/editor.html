@@ -9,10 +9,11 @@
    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css"></link>
-   <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"></link>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css"></link>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"></link>
+   <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
    <style>
       <!-- fix code mirror bug -->
       .tui-editor-defaultUI .CodeMirror-scroll{
@@ -27,13 +28,69 @@
          margin-right:5px;
          display:inline-block;
       }
+      
+      .popover-station{
+         display:none;
+      }
+      
+      .ajax-loading{
+         position:fixed;
+         width:100vw;
+         height:100vh;
+         background-color:rgba(0,0,0,0.7);
+         left:0;
+         top:0;
+      }
+      
+      .ajax-loading-icon{
+         background-image:url(images/tistory_logo_white.png);
+         background-size:cover;
+         background-position:center;
+         width: 48px;
+         height: 48px;
+         margin: 0 auto;
+         top:49vh;
+         display:inline-block;
+      }
+      
+      .hide{
+         display:none !important;
+      }
    </style>
 </head>
 <body>
    <script>
 
    </script>
-   <div class="popover-station"></div>
+   <div class="popover-station">
+      <div class="profile-popover-content">
+         <h2 class="screen_out">개인정보</h2>
+         <div class="info_profile">
+            <a href="/member" class="txt_id txt_id_type2">Ahryne</a>
+            <span class="txt_email">arin@tistory.com</span>
+            <a href="/member" class="link_setting link_setting_type2">계정관리</a>
+         </div>
+         <div class="wrap_list #blogList" style="max-height: 300px;">
+            <div>
+               <h3 class="tit_list_type">운영중인 블로그</h3>
+               <div class="info_profile info_profile_type1">
+                  <a href="http://ahryne.tistory.com" class="txt_id">『꿈을 심어가는 둥지』</a>
+                  <a href="http://ahryne.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
+                  <a href="https://ahryne.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
+               </div>
+            </div>
+            <div>
+               <h3 class="tit_list_type">참여중인 블로그</h3>
+               <div class="info_profile info_profile_type1">
+                  <a href="http://pinkarin.tistory.com" class="txt_id">:: 핑카린, 진달래꽃 낭만주의 “ort rosa”</a><a href="http://pinkarin.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
+                  <a href="https://pinkarin.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
+               </div>
+            </div>
+         </div>
+         <button class="logout-button">로그아웃</button>
+      </div>   
+   
+   </div>
    <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
      <header class="bmd-layout-header">
        <div class="navbar navbar-light bg-faded">
@@ -69,31 +126,8 @@
          </div>   
       </main>
    </div>
-   <div class="profile-popover-content">
-      <h2 class="screen_out">개인정보</h2>
-      <div class="info_profile">
-         <a href="/member" class="txt_id txt_id_type2">Ahryne</a>
-         <span class="txt_email">arin@tistory.com</span>
-         <a href="/member" class="link_setting link_setting_type2">계정관리</a>
-      </div>
-      <div class="wrap_list #blogList" style="max-height: 300px;">
-         <div>
-            <h3 class="tit_list_type">운영중인 블로그</h3>
-            <div class="info_profile info_profile_type1">
-               <a href="http://ahryne.tistory.com" class="txt_id">『꿈을 심어가는 둥지』</a>
-               <a href="http://ahryne.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
-               <a href="https://ahryne.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
-            </div>
-         </div>
-         <div>
-            <h3 class="tit_list_type">참여중인 블로그</h3>
-            <div class="info_profile info_profile_type1">
-               <a href="http://pinkarin.tistory.com" class="txt_id">:: 핑카린, 진달래꽃 낭만주의 “ort rosa”</a><a href="http://pinkarin.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
-               <a href="https://pinkarin.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
-            </div>
-         </div>
-      </div>
-      <button class="logout-button">로그아웃</button>
+   <div class="ajax-loading hide">
+      <div class="ajax-loading-icon animated infinite heartbeat"></div>
    </div>
    <iframe style="visibility:hidden" width="0" height="0" class="external-logout-bridge" src="about:blank"></iframe>
 <script>
@@ -115,6 +149,7 @@ $(document).on('load','.external-logout-bridge',function(){
      
      if(url.indexOf('tistory.com/oauth/authorize')){
          console.log("AUTHORIZE PAGE, logout complete.");
+         localStorage.removeItem('access-token');
          location.reload();
      }else {
          $('.logout-button').click();
@@ -173,9 +208,8 @@ var viewer = new tui.Viewer({
 */
 
 $(document).on('click','.logout-button',function(){
+      $('.ajax-loading').removeClass('hide');
       $('.external-logout-bridge').attr('src','https://tistory.com/auth/logout');
-      
-      
       setTimeout(function(){
          location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
       },1000);
