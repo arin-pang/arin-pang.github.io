@@ -166,7 +166,12 @@ var viewer = new tui.Viewer({
 */
 
 $(document).on('click','.logout-button',function(){
-   $('.external-bridge').attr('src','https://tistory.com/auth/logout');
+   try{
+      $('.external-bridge').attr('src','https://tistory.com/auth/logout');
+   }catch(e){
+      console.log(JSON.stringify(e));
+      location.reload();
+   }
 });
 
 
