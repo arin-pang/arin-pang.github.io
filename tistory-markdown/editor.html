@@ -30,6 +30,15 @@
    </style>
 </head>
 <body>
+   <script>
+
+   onChangedExternalBridge = function(url){
+      if(url == 'https://tistory.com/'){
+         location.reload();
+      }
+   }
+      
+   </script>
    <div class="popover-station"></div>
    <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
      <header class="bmd-layout-header">
@@ -162,12 +171,6 @@ $(document).on('click','.logout-button',function(){
    $('.external-bridge').attr('src','https://tistory.com/auth/logout');
 });
 
-
-onChangedExternalBridge = function(url){
-   if(url == 'https://tistory.com/'){
-      location.reload();
-   }
-}
 
 
 
