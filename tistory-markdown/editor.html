@@ -99,7 +99,7 @@ $(document).on('click','.write-button',function(){
       $('div',$hide).append(contentMarkdown);
       
 
-      var mixedHtml = contentHtml + $hide.html();
+      var mixedHtml = contentHtml + '\r\n\r\n<!--\r\n' + contentMarkdown + '\r\n-->\r\n'
       
       
       formData.append('access_token',access_token);
