@@ -16,21 +16,17 @@
    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
    <style>
-      <!-- fix code mirror bug -->
-      .tui-editor-defaultUI .CodeMirror-scroll{
-         min-height: 200px;
-      }
-      .te-md-container .te-preview{
+      .te-md-container{
          background:white;
       }
-      .tistory-thumbnail{
-         width:30px;
-         height:30px;
+      .tistory-thumbnail,.blog-pic{
+         width:40px;
+         height:40px;
          background-size:cover;
          background-position:center;
          border-radius:50%;
-         margin-right:5px;
          display:inline-block;
+         background-color:grey;
       }
       
       .popover-station{
@@ -64,6 +60,108 @@
       .godhand{
          cursor: pointer !important;
       }
+      
+      .navbar-brand{
+         max-width:200px;
+          text-overflow: ellipsis;
+          white-space:nowrap;
+          overflow:hidden;
+          font-size:14px;
+      }
+
+      @media (min-width: 768px) {
+         .navbar-brand{
+            max-width:400px;
+            font-size:inherit;
+            display:inline-block;
+         }
+      }          
+      .profile-popover-content{
+         width:300px;
+      }
+      .profile-popover-content ul{
+         padding-inline-start: 0px;
+      }
+      .blog-selection{
+         padding:5px;
+         max-height:50px;
+      }
+      .blog-selection span{
+         display:inline-block;
+         width:186px;
+          line-height: 37px;
+          overflow: hidden;
+          max-height: 37px;
+          text-overflow: ellipsis;
+          white-space:nowrap;
+          font-size:13px;
+      }
+      li.list-group-item .blog-pic{
+         margin-right:1rem;
+      }
+      .popover{
+          max-width: 100%; /* Max Width of the popover (depending on the container!) */
+          max-height:400px;
+          overflow-y:auto;
+      
+      }
+      @media (min-width: 768px) {
+         .popover{
+            max-height:90vh;
+         }
+      }
+      
+      
+      .regist-zone{
+         text-align:center;
+      }
+      @media (min-width: 768px) {
+         .regist-zone{
+           
+            text-align:right;
+            margin-right:10px;
+         }
+      }
+      
+      .popover-body{
+         padding:0;
+      }
+      .profile-popover-content h5{
+         font-size: 12px;
+         font-weight:600;
+         color:#909090;
+         margin-left:1rem;
+      }
+      .profile-popover-content>div{
+      
+         border-bottom:1px solid #f0f0f0;
+      }
+      .profile-popover-content a{
+         color: #909090;
+         font-size:12px;
+         float:right;
+    line-height: 24px;
+      }
+      .profile-popover-content>div>*{
+         padding: 18px 22px 21px 23px;
+      }
+      .logout-button{
+         font-size: 12px;
+         margin-bottom:0px;
+      }
+      .profile-info{
+         margin-left:1rem;
+      }
+      
+      .history-back{
+         margin-bottom:0;
+         padding-top: 10px;
+         margin-left:0px;
+      }
+      .navbar{
+         padding-left:0;
+      }
+      
    </style>
 </head>
 <body>
@@ -72,30 +170,27 @@
    </script>
    <div class="popover-station">
       <div class="profile-popover-content">
-         <h2 class="screen_out">개인정보</h2>
-         <div class="info_profile">
-            <a href="/member" class="txt_id txt_id_type2">Ahryne</a>
-            <span class="txt_email">arin@tistory.com</span>
-            <a href="/member" class="link_setting link_setting_type2">계정관리</a>
-         </div>
-         <div class="wrap_list #blogList" style="max-height: 300px;">
-            <div>
-               <h3 class="tit_list_type">운영중인 블로그</h3>
-               <div class="info_profile info_profile_type1">
-                  <a href="http://ahryne.tistory.com" class="txt_id">『꿈을 심어가는 둥지』</a>
-                  <a href="http://ahryne.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
-                  <a href="https://ahryne.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
-               </div>
-            </div>
-            <div>
-               <h3 class="tit_list_type">참여중인 블로그</h3>
-               <div class="info_profile info_profile_type1">
-                  <a href="http://pinkarin.tistory.com" class="txt_id">:: 핑카린, 진달래꽃 낭만주의 “ort rosa”</a><a href="http://pinkarin.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
-                  <a href="https://pinkarin.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
-               </div>
+         <div >
+            <div class="profile-info">
+            <span class="tistory-id">arin@tistory.com</span>
+            <a href="/member" target="_blank" class="godhand">계정관리</a>
             </div>
          </div>
-         <button class="logout-button">로그아웃</button>
+         <div class="blog-list">
+            <div>
+               <h5>운영중인 블로그</h5>
+               <ul class="owner-blog">
+               </ul>
+            </div>
+            <div>
+               <h5>참여중인 블로그</h5>
+               <ul class="member-blog">
+               </ul>
+            </div>
+         </div>
+         <div>
+           <button type="button" class="btn btn-dark logout-button">로그아웃</button>
+         </div>
       </div>   
    
    </div>
@@ -106,11 +201,14 @@
            <span class="sr-only">Toggle drawer</span>
            <i class="material-icons">menu</i>
          </button>-->
-         <a class="navbar-brand" href="#">Tistory Markdown Editor</a>
+         <button class="btn btn btn-dark  history-back">
+           <i class="material-icons">arrow_back</i>
+         </button>
+         <a class="navbar-brand">Tistory Markdown Editor</a>
          <ul class="nav navbar-nav">
            <li class="nav-item profile-popover godhand">
            <div class="tistory-thumbnail">&nbsp;</div>
-           <span class="tistory-id"></span>
+           <!--<span class="tistory-id"></span>-->
            </li>
          </ul>
        </div>
@@ -129,10 +227,6 @@
      -->
       <main class="bmd-layout-content">
          <div class="row">
-            <div class="col-4">
-               <select class="target-blog">
-               </select>
-            </div>
             <div class="col-12">
                <input type="text" class="input-title"></input>
             </div>
@@ -140,10 +234,18 @@
                <div id="editSection">
                </div>
             </div>
-            <div class="col-12">
-               <button class="write-button">등록</button>
-            </div>
          </div>   
+         <div class="row" style="margin-top:20px" >
+            <div class="col-1"  >
+            </div>
+            <div class="col-10 regist-zone" >
+            
+               <button type="button" style="margin-right:10px" class="btn btn-raised btn-secondary">취소</button>
+               <button type="button" class="btn btn-raised btn-primary write-button">등록</button>
+            </div>
+            <div class="col-1"  >
+            </div>
+         </div>
       </main>
    </div>
    <div class="ajax-loading hide">
@@ -164,11 +266,9 @@ $('.profile-popover').popover({
 });
 
 $(document).on('load','.external-logout-bridge',function(){
-    //The iframe has loaded or reloaded. 
-     console.log('test', $(this).attr('src'));
-     
+     // CORS Problem Fix
      if(url.indexOf('tistory.com/oauth/authorize')){
-         console.log("AUTHORIZE PAGE, logout complete.");
+         // Logout Complete
          localStorage.removeItem('access-token');
          location.reload();
      }else {
@@ -184,6 +284,8 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
 .then(function(response){
    var tistory = response.data.tistory;
    
+   var selectedSeq = localStorage.getItem('selected-seq');
+   
    if(tistory.status != 200){
       throw new Error(tistory);
    }
@@ -194,22 +296,60 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    $('.tistory-id').text(info.id);
    
    for(var i in info.blogs){
-      var $option = $('<option>');
       var blog = info.blogs[i];
-      $option.text(blog.title + '-' + blog.url);
-      $option.attr('value',blog.name);
-      $('.target-blog').append($option);
+      var $blog = $('<li class="list-group-item godhand blog-selection"><div class="blog-pic"></div><span></span></li>');
+      $blog.find('span').text(blog.title);
+      $blog.find('.blog-pic').css('background-image','url('+blog.profileThumbnailImageUrl+')');
+      $blog.attr('data-seq',i);
+      $blog.attr('data-pic',blog.profileThumbnailImageUrl);
+      
+      if(selectedSeq == i){
+         $blog.addClass('active');
+      }
+      
+      switch(blog.role){
+         case '소유자':
+            $('.owner-blog').append($blog);
+         break;
+         case '관리자':
+         case '편집자':
+         case '필자':
+            $('.member-blog').append($blog);
+         break;
+      }
       
    }
    var encodedProUrl = encodeURIComponent('https://tistory1.daumcdn.net/tistory/user/'+info.userId+'/profile/profileImg');
    
-   var iconUrl = 'http://img1.daumcdn.net/thumb/C30x30/?fname=' + encodedProUrl;
+   var iconUrl = 'http://img1.daumcdn.net/thumb/C40x40/?fname=' + encodedProUrl;
    
-   $('.tistory-thumbnail').css('background-image','url('+iconUrl+')');
+   
+   
+   
+   if(!selectedSeq){
+      $('.blog-selection').eq(0).trigger('click');
+   }else{
+      $('.blog-selection[data-seq="'+selectedSeq+'"]').trigger('click');
+   }
+  
 })
 .catch(function(error){
-   alert(JSON.stringify(error));
-   location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+
+   console.error(error);
+
+   try{
+   console.log(error.response.data.tistory);
+      if(error.response.data.tistory.error_message.indexOf('access_token')>-1){
+         location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+         //location.href='https://www.tistory.com/oauth/authorize?  client_id=85755b376fdea37e204989b110a6b622&redirect_uri=http://localhost:10001/redirect.html&response_type=token';
+      }else{
+         throw error;
+      }
+   }catch(e){
+      alert('오류가 발생하여 페이지를 다시 불러옵니다.');
+      console.error(e);
+      location.reload();
+   }
 });
 
 var editor = new tui.Editor({
@@ -230,13 +370,25 @@ var viewer = new tui.Viewer({
 $(document).on('click','.logout-button',function(){
       $('.ajax-loading').removeClass('hide');
       $('.external-logout-bridge').attr('src','https://tistory.com/auth/logout');
+      
+      // CORS Problem Fix
       setTimeout(function(){
          location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
       },1000);
 });
 
 
+$(document).on('click','.blog-selection',function(){
+   $('.blog-selection').removeClass('active');
+   $(this).addClass('active');
+   
+   localStorage.setItem('selected-seq',$(this).attr('data-seq'));
+   
+   $('.navbar-brand').text($(this).find('span').text());
+   
+   $('.tistory-thumbnail').css('background-image','url('+$(this).attr('data-pic')+')');
 
+});
 
 $(document).on('click','.write-button',function(){
 
@@ -255,10 +407,12 @@ $(document).on('click','.write-button',function(){
       var mixedHtml = contentHtml + $hide.html();
       // '\r\n\r\n<!--\r\n' + contentMarkdown + '\r\n-->\r\n'
       
+      var selectedSeq = Number(localStorage.getItem('selected-seq'));
+      
       
       formData.append('access_token',access_token);
       formData.append('output','json');
-      formData.append('blogName',$('.target-blog').val());
+      formData.append('blogName',info.blogs[selectedSeq].name);
       formData.append('title',$('.input-title').val());
       formData.append('content',mixedHtml);
       formData.append('visibility',0);
@@ -281,6 +435,11 @@ $(document).on('click','.write-button',function(){
    
    }
 });
+
+
+
+      // fix code mirror bug
+      $('.tui-editor-defaultUI .CodeMirror-scroll').css('min-height','300px');
 
 </script>
 </body>
