@@ -40,9 +40,10 @@
            <i class="material-icons">menu</i>
          </button>
          <ul class="nav navbar-nav">
-           <li class="nav-item">
+           <li class="nav-item profile-popover">
            <div class="tistory-thumbnail">&nbsp;</div>
-           <span class="tistory-id"></span></li>
+           <span class="tistory-id"></span>
+           </li>
          </ul>
        </div>
      </header>
@@ -89,7 +90,7 @@
             </div>
          </div>
       </div>
-      <button class="logout_button">로그아웃</button>
+      <button class="logout-button">로그아웃</button>
    </div>
 <script>
 
@@ -97,7 +98,7 @@ var device = $.ua.device;
 
 
 $('.profile-popover').popover({
-    container: $('.popover-station'),
+    //container: $('.popover-station'),
     content:$('.profile-popover-content'),
     html:true,
     placement:'bottom',
