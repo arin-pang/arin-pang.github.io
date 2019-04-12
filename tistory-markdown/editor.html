@@ -67,10 +67,7 @@
       </main>
    </div>   
 <script>
-/*console.log(UAParser);
-var uaParser = new UAParser();
-var userAgent = navigator.userAgent;
-uaParser.setUA(userAgent);*/
+
 var device = $.ua.device;
 
 
@@ -90,7 +87,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    info = tistory.item;
    
    $('.tistory-id').text(info.id);
-   $('.tistory-thumbnail').css('background-image',profileThumbnailImageUrl);
+   $('.tistory-thumbnail').css('background-image',info.profileThumbnailImageUrl);
    
    for(var i in info.blogs){
       var $option = $('<option>');
