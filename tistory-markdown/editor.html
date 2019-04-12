@@ -25,14 +25,16 @@
          background-position:center;
          border-radius:50%;
          margin-right:5px;
+         display:inline-block;
       }
    </style>
 </head>
 <body>
-
+   <div class="popover-station"></div>
    <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
      <header class="bmd-layout-header">
        <div class="navbar navbar-light bg-faded">
+         <a class="navbar-brand" href="#">Tistory Markdown Editor</a>
          <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
            <span class="sr-only">Toggle drawer</span>
            <i class="material-icons">menu</i>
@@ -46,9 +48,6 @@
      </header>
       <main class="bmd-layout-content">
          <div class="row">
-            <div class="col-4">
-               <h4>Tistory Markdown Editor</h4>
-            </div>
             <div class="col-4">
                <select class="target-blog">
                </select>
@@ -65,10 +64,45 @@
             </div>
          </div>   
       </main>
-   </div>   
+   </div>
+   <div class="profile-popover-content">
+      <h2 class="screen_out">개인정보</h2>
+      <div class="info_profile">
+         <a href="/member" class="txt_id txt_id_type2">Ahryne</a>
+         <span class="txt_email">arin@tistory.com</span>
+         <a href="/member" class="link_setting link_setting_type2">계정관리</a>
+      </div>
+      <div class="wrap_list #blogList" style="max-height: 300px;">
+         <div>
+            <h3 class="tit_list_type">운영중인 블로그</h3>
+            <div class="info_profile info_profile_type1">
+               <a href="http://ahryne.tistory.com" class="txt_id">『꿈을 심어가는 둥지』</a>
+               <a href="http://ahryne.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
+               <a href="https://ahryne.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
+            </div>
+         </div>
+         <div>
+            <h3 class="tit_list_type">참여중인 블로그</h3>
+            <div class="info_profile info_profile_type1">
+               <a href="http://pinkarin.tistory.com" class="txt_id">:: 핑카린, 진달래꽃 낭만주의 “ort rosa”</a><a href="http://pinkarin.tistory.com/manage/post" class="img_common_tistory link_edit">쓰기</a>
+               <a href="https://pinkarin.tistory.com/manage" class="img_common_tistory link_setting">블로그 관리</a>
+            </div>
+         </div>
+      </div>
+      <button class="logout_button">로그아웃</button>
+   </div>
 <script>
 
 var device = $.ua.device;
+
+
+$('.profile-popover').popover({
+    container: $('.popover-station'),
+    content:$('.profile-popover-content'),
+    html:true,
+    placement:'bottom',
+    trigger:'focus'
+});;
 
 
 
@@ -121,6 +155,17 @@ var viewer = new tui.Viewer({
     initialValue: '# content to be rendered'
 });
 */
+
+$(document).on('click','.logout-button',function(){
+   axios.get('https://tistory.com/auth/logout')
+   .then(function(response){
+      location.reload();
+   })
+   .catch(function(error){
+      console.error(error);
+      alert("로그아웃에 실패하였습니다. 다시 시도하여 주십시오.");
+   });
+});
 
 $(document).on('click','.write-button',function(){
 
