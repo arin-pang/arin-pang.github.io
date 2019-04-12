@@ -95,7 +95,7 @@
       </div>
       <button class="logout-button">로그아웃</button>
    </div>
-   <iframe style="visibility:hidden" width="0" height="0" class="external-bridge" src="about:blank"></iframe>
+   <iframe style="visibility:hidden" width="0" height="0" class="external-logout-bridge" src="about:blank"></iframe>
 <script>
 
 var device = $.ua.device;
@@ -109,9 +109,16 @@ $('.profile-popover').popover({
     trigger:'click'
 });
 
-$(document).on('beforeunload','.external-bridge',function(){
+$(document).on('load','.external-logout-bridge',function(){
     //The iframe has loaded or reloaded. 
      console.log('test', $(this).attr('src'));
+     
+     if(url.indexOf('tistory.com/oauth/authorize')){
+         console.log("AUTHORIZE PAGE, logout complete.");
+         location.reload();
+     }else {
+         $('.logout-button').click();
+     }
 });
 
 
@@ -166,12 +173,12 @@ var viewer = new tui.Viewer({
 */
 
 $(document).on('click','.logout-button',function(){
-   try{
-      $('.external-bridge').attr('src','https://tistory.com/auth/logout');
-   }catch(e){
-      console.log(JSON.stringify(e));
-      location.reload();
-   }
+      $('.external-logout-bridge').attr('src','https://tistory.com/auth/logout');
+      
+      
+      setTimeout(function(){
+         location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+      },1000);
 });
 
 
