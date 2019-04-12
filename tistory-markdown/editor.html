@@ -26,6 +26,9 @@
          </select>
       </div>
       <div class="col-xs-12">
+         <input type="text" class="input-title"></input>
+      </div>
+      <div class="col-xs-12">
          <div id="editSection">
          </div>
       </div>
@@ -59,6 +62,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
       var $option = $('<option>');
       var blog = info.blogs[i];
       $option.text(blog.title + '-' + blog.url);
+      $option.attr('value',blog.name);
       $('.target-blog').append($option);
    }
 })
@@ -80,6 +84,30 @@ var viewer = new tui.Viewer({
     initialValue: '# content to be rendered'
 });
 */
+
+$(document).on('click','.write-button',function(){
+
+   if(confirm('글을 등록하시겠습니까?')){
+      axios.post('https://www.tistory.com/apis/post/write',{
+         access_token:access_token,
+         output:'json',
+         blogName:$('.target-blog').val(),
+         title:$('.input-title').val(),
+         content:editor.getValue(),
+         visibility:0,
+         category:0,
+         acceptComment:0,
+       })
+      .then(function(response){
+         alert(JSON.stringify(response.data));
+      })
+      .catch(function(error){
+         alert("글을 등록할 수 없습니다.");
+         console.error(error);
+      });
+   
+   }
+});
 
 </script>
 </body>
