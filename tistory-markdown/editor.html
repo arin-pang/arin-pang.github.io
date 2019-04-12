@@ -90,11 +90,23 @@ $(document).on('click','.write-button',function(){
    if(confirm('글을 등록하시겠습니까?')){
       var formData = new FormData();
       
+      
+      var contentHtml = (editor.getHtml());
+      var contentMarkdown = (editor.getMarkdown());
+      
+      var $hide = $('<span>');
+      $hide.append($('<div style="display:none">'));
+      $('div',$hide).append(contentMarkdown);
+      
+
+      var mixedHtml = contentHtml + $hide.html();
+      
+      
       formData.append('access_token',access_token);
       formData.append('output','json');
       formData.append('blogName',$('.target-blog').val());
       formData.append('title',$('.input-title').val());
-      formData.append('content',editor.getValue());
+      formData.append('content',mixedHtml);
       formData.append('visibility',0);
       formData.append('category',0);
       formData.append('acceptComment',0);
