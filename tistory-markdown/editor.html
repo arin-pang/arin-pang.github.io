@@ -76,6 +76,25 @@
             display:inline-block;
          }
       }          
+	  
+	  
+	  .form-group{
+		margin: 1em 0;
+	  
+	  }
+		 
+      @media (max-width: 1800px) {
+		main.bmd-layout-content{
+			padding:0px 20px;
+		}
+	  }
+        main.bmd-layout-content{
+            max-width: 1760px;
+			margin:0 auto !important;;
+		}
+
+		  
+	  
       .profile-popover-content{
          width:300px;
       }
@@ -173,7 +192,7 @@
          <div >
             <div class="profile-info">
             <span class="tistory-id">arin@tistory.com</span>
-            <a href="/member" target="_blank" class="godhand">계정관리</a>
+            <a href="https://www.tistory.com/member" target="_blank" class="godhand">계정관리</a>
             </div>
          </div>
          <div class="blog-list">
@@ -227,8 +246,19 @@
      -->
       <main class="bmd-layout-content">
          <div class="row">
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="form-group">
+				<label for="select-category" class="bmd-label-floating">카테고리</label>
+				<select class="form-control select-category" id="select-category">
+				</select>
+				</div>			
+			</div>
             <div class="col-12">
-               <input type="text" class="input-title"></input>
+               <div class="form-group">
+					<label for="input-title" class="bmd-label-floating">제목</label>
+					<input type="email" class="form-control input-title" id="input-title">
+					<span class="bmd-help">제목을 입력하세요</span>
+				  </div>
             </div>
             <div class="col-12">
                <div id="editSection">
@@ -253,6 +283,39 @@
    </div>
    <iframe style="visibility:hidden" width="0" height="0" class="external-logout-bridge" src="about:blank"></iframe>
 <script>
+
+
+var ajaxLoadingStack = [];
+
+axios.interceptors.request.use(function (config) {
+	ajaxLoadingStack.push(config);
+	console.log(ajaxLoadingStack);
+	
+	if(ajaxLoadingStack.length){
+		$('.ajax-loading').removeClass('hide');
+	}
+    // Do something before request is sent
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+	ajaxLoadingStack.shift();
+	
+	if(!ajaxLoadingStack.length){
+		$('.ajax-loading').addClass('hide');
+	}
+	
+    return response;
+  }, function (error) {
+    // Do something with response error
+    return Promise.reject(error);
+});
+
+
 
 var device = $.ua.device;
 
@@ -280,6 +343,8 @@ $(document).on('load','.external-logout-bridge',function(){
 var info = {};
 
 var access_token = localStorage.getItem('access-token');
+
+
 axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&output=json')
 .then(function(response){
    var tistory = response.data.tistory;
@@ -323,7 +388,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    
    var iconUrl = 'http://img1.daumcdn.net/thumb/C40x40/?fname=' + encodedProUrl;
    
-   
+
    
    
    if(!selectedSeq){
@@ -367,6 +432,7 @@ var viewer = new tui.Viewer({
 });
 */
 
+  
 $(document).on('click','.logout-button',function(){
       $('.ajax-loading').removeClass('hide');
       $('.external-logout-bridge').attr('src','https://tistory.com/auth/logout');
@@ -379,14 +445,60 @@ $(document).on('click','.logout-button',function(){
 
 
 $(document).on('click','.blog-selection',function(){
+	$('.select-category').html('');
    $('.blog-selection').removeClass('active');
    $(this).addClass('active');
    
-   localStorage.setItem('selected-seq',$(this).attr('data-seq'));
+   var seq = $(this).attr('data-seq');
+   
+   localStorage.setItem('selected-seq',seq);
    
    $('.navbar-brand').text($(this).find('span').text());
    
    $('.tistory-thumbnail').css('background-image','url('+$(this).attr('data-pic')+')');
+   
+		function loadBlogCategory(seq){
+			var myCategoryList = info.blogs[seq].categoryList;
+			
+				var $option = $('<option>');
+			$option.text('미지정');
+			$('.select-category').append($option);
+			
+			for(var j in myCategoryList){
+				var $option = $('<option>');
+				var cateName = myCategoryList[j].label + ' (' + myCategoryList[j].entries + ')';
+				
+				$option.text(cateName);
+				$option.attr('data-parent', myCategoryList[j].parent);
+				$option.attr('data-id', myCategoryList[j].id);
+				$('.select-category').append($option);
+			}		
+		
+		}
+   
+		function callBlogCategory(seq){
+			var name = info.blogs[seq].name;
+			
+			axios.get('https://www.tistory.com/apis/category/list?blogName='+name+'&access_token='+access_token+'&output=json')
+			.then(function(response){
+				var tistory = response.data.tistory;
+				if(tistory.status != 200){
+				   throw new Error(tistory);
+				}
+				
+				info.blogs[seq].categoryList = response.data.tistory.item.categories;
+				
+			})
+			.catch(function(error){
+				alert('카테고리를 불러올 수 없습니다.');
+				console.error(error);
+			});
+		}
+		
+	if(!info.blogs[seq].categoryList)
+		callBlogCategory(seq);   
+   
+	loadBlogCategory(seq);
 
 });
 
