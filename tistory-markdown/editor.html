@@ -15,6 +15,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+   <script src="tistory-markdown.js"></script>
    <style>
       .te-md-container{
          background:white;
@@ -265,19 +266,21 @@
                </div>
             </div>
          </div>   
-         <div class="row" style="margin-top:20px" >
-            <div class="col-1"  >
-            </div>
-            <div class="col-10 regist-zone" >
+         <div class="row" style="margin-bottom:70px" >
             
-               <button type="button" style="margin-right:10px" class="btn btn-raised btn-secondary">취소</button>
-               <button type="button" class="btn btn-raised btn-primary write-button">등록</button>
-            </div>
-            <div class="col-1"  >
-            </div>
          </div>
       </main>
    </div>
+   <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div class="col-1"  >
+      </div>
+      <div class="col-10 regist-zone" >
+         <button type="button" style="margin-right:10px" class="btn btn-raised btn-secondary">취소</button>
+         <button type="button" class="btn btn-raised btn-primary write-button">등록</button>
+      </div>
+      <div class="col-1"  >
+      </div>
+    </nav>
    <div class="ajax-loading hide">
       <div class="ajax-loading-icon animated infinite heartBeat"></div>
    </div>
@@ -405,8 +408,7 @@ axios.get('https://www.tistory.com/apis/blog/info?access_token='+access_token+'&
    try{
    console.log(error.response.data.tistory);
       if(error.response.data.tistory.error_message.indexOf('access_token')>-1){
-         location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
-         //location.href='https://www.tistory.com/oauth/authorize?  client_id=85755b376fdea37e204989b110a6b622&redirect_uri=http://localhost:10001/redirect.html&response_type=token';
+         location.href=TISTORY_AUTH_URL;
       }else{
          throw error;
       }
@@ -439,7 +441,7 @@ $(document).on('click','.logout-button',function(){
       
       // CORS Problem Fix
       setTimeout(function(){
-         location.href='https://www.tistory.com/oauth/authorize?  client_id=7e0e47fd077ca7057cfe47722f0c00dd&redirect_uri=http://ahryne.github.io/tistory-markdown/redirect.html&response_type=token';
+         location.href=TISTORY_AUTH_URL;
       },1000);
 });
 
@@ -500,6 +502,11 @@ $(document).on('click','.blog-selection',function(){
    
 	loadBlogCategory(seq);
 
+});
+
+
+$(document).on('click','.bmd-layout-content',function(){
+   $('.popover').popover('hide');
 });
 
 $(document).on('click','.write-button',function(){
